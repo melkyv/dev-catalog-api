@@ -18,4 +18,9 @@ public class CategoryService {
     public List<CategoryDTO> findAll() {
         return repository.findAll().stream().map(CategoryDTO::new).toList();
     }
+
+    @Transactional(readOnly = true)
+    public CategoryDTO findById(Long id) {
+        return new CategoryDTO(repository.getReferenceById(id));
+    }
 }
