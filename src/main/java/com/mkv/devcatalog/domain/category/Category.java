@@ -1,4 +1,4 @@
-package com.mkv.devcatalog.domains.category;
+package com.mkv.devcatalog.domain.category;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

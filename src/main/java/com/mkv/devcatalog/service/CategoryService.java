@@ -1,7 +1,7 @@
 package com.mkv.devcatalog.service;
 
-import com.mkv.devcatalog.domains.category.Category;
-import com.mkv.devcatalog.domains.category.CategoryRepository;
+import com.mkv.devcatalog.domain.category.Category;
+import com.mkv.devcatalog.domain.category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
