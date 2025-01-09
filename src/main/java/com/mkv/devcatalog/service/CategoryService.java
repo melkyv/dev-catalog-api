@@ -4,16 +4,12 @@ import com.mkv.devcatalog.domain.category.Category;
 import com.mkv.devcatalog.domain.category.CategoryDTO;
 import com.mkv.devcatalog.domain.category.CategoryRepository;
 import com.mkv.devcatalog.infra.exception.IntegrityError;
-import com.mkv.devcatalog.infra.exception.StandardError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class CategoryService {
