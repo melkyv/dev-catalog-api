@@ -1,13 +1,12 @@
 package com.mkv.devcatalog.domain.product;
 
 import com.mkv.devcatalog.domain.category.Category;
+import com.mkv.devcatalog.domain.category.CategoryDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @EqualsAndHashCode(of = "id")
 public class Product {
 
@@ -36,5 +36,6 @@ public class Product {
         joinColumns = @JoinColumn(name = "product_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    Set<Category> categories;
+    Set<Category> categories = new HashSet<>();
+
 }
