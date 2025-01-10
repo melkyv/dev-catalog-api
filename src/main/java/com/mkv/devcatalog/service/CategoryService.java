@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+
 @Service
 public class CategoryService {
 
@@ -29,7 +31,8 @@ public class CategoryService {
 
     @Transactional
     public CategoryDTO insert(CategoryDTO dto) {
-        Category category = new Category(dto);
+        Category category = new Category();
+        copyDtoToEntity(dto, category);
         repository.save(category);
 
         return new CategoryDTO(category);
@@ -38,7 +41,7 @@ public class CategoryService {
     @Transactional
     public CategoryDTO update(Long id, CategoryDTO dto) {
         Category category = repository.getReferenceById(id);
-        category.updateData(dto);
+        copyDtoToEntity(dto, category);
 
         return new CategoryDTO(category);
     }
@@ -51,6 +54,12 @@ public class CategoryService {
         catch (DataIntegrityViolationException e) {
             throw new IntegrityError("Integrity violation");
         }
+    }
 
+    private void copyDtoToEntity(CategoryDTO dto, Category entity) {
+        if (entity.getName() != null) {
+            entity.setUpdatedAt(Instant.now());
+        }
+        entity.setName(dto.name());
     }
 }
