@@ -1,7 +1,8 @@
 package com.mkv.devcatalog.controller;
 
-import com.mkv.devcatalog.domain.product.ProductDTO;
-import com.mkv.devcatalog.service.ProductService;
+import com.mkv.devcatalog.domain.user.UserDTO;
+import com.mkv.devcatalog.domain.user.UserInsertDTO;
+import com.mkv.devcatalog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,36 +15,36 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/products")
-public class ProductController {
+@RequestMapping("/users")
+public class UserController {
 
     @Autowired
-    private ProductService service;
+    private UserService service;
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(@PageableDefault(size = 15, sort = "id", direction = Sort.Direction.DESC) Pageable pagination) {
-        Page<ProductDTO> list = service.findAll(pagination);
+    public ResponseEntity<Page<UserDTO>> findAll(@PageableDefault(size = 15, sort = "id", direction = Sort.Direction.DESC) Pageable pagination) {
+        Page<UserDTO> list = service.findAll(pagination);
 
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
-        ProductDTO dto = service.findById(id);
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+        UserDTO dto = service.findById(id);
 
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto, UriComponentsBuilder uriBuilder) {
-        dto = service.insert(dto);
-        URI uri = uriBuilder.path("/products/{id}").buildAndExpand(dto.getId()).toUri();
+    public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO dto, UriComponentsBuilder uriBuilder) {
+        UserDTO newDto = service.insert(dto);
+        URI uri = uriBuilder.path("/users/{id}").buildAndExpand(newDto.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(dto);
+        return ResponseEntity.created(uri).body(newDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO dto) {
         dto = service.update(id, dto);
 
         return ResponseEntity.ok(dto);
