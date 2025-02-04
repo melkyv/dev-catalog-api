@@ -2,6 +2,10 @@ package com.mkv.devcatalog.domain.product;
 
 import com.mkv.devcatalog.domain.category.Category;
 import com.mkv.devcatalog.domain.category.CategoryDTO;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,10 +18,19 @@ import java.util.Set;
 @Setter
 public class ProductDTO {
     private Long id;
+
+    @Size(min = 5, max = 60, message = "Campo deve ter entre 5 e 60 caracteres")
+    @NotBlank(message = "Campo obrigatório")
     private String name;
+
+    @NotBlank(message = "Campo obrigatório")
     private String description;
+
+    @Positive(message = "O preço deve ser um valor positivo!")
     private Double price;
     private String imgUrl;
+
+    @PastOrPresent(message = "A data do produto não pode ser futura")
     private Instant date;
     private List<CategoryDTO> categories = new ArrayList<>();
 
