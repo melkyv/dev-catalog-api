@@ -3,16 +3,12 @@ package com.mkv.devcatalog.service;
 import com.mkv.devcatalog.domain.role.Role;
 import com.mkv.devcatalog.domain.role.RoleDTO;
 import com.mkv.devcatalog.domain.role.RoleRepository;
-import com.mkv.devcatalog.domain.user.User;
-import com.mkv.devcatalog.domain.user.UserDTO;
-import com.mkv.devcatalog.domain.user.UserInsertDTO;
-import com.mkv.devcatalog.domain.user.UserRepository;
+import com.mkv.devcatalog.domain.user.*;
 import com.mkv.devcatalog.infra.exception.IntegrityError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +46,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(Long id, UserDTO dto) {
+    public UserDTO update(Long id, UserUpdateDTO dto) {
         User user = repository.getReferenceById(id);
         copyDtoToEntity(dto, user);
 

@@ -1,7 +1,8 @@
 package com.mkv.devcatalog.domain.user;
 
-import com.mkv.devcatalog.domain.category.CategoryDTO;
 import com.mkv.devcatalog.domain.role.RoleDTO;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,8 +16,12 @@ import java.util.Set;
 public class UserDTO {
 
     private Long id;
+
+    @NotBlank(message = "Campo obrigatório")
     private String firstName;
     private String lastName;
+
+    @Email(message = "Insira um email válido!")
     private String email;
     private Set<RoleDTO> roles = new HashSet<>();
 

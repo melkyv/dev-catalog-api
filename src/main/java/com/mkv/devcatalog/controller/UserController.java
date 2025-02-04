@@ -2,7 +2,9 @@ package com.mkv.devcatalog.controller;
 
 import com.mkv.devcatalog.domain.user.UserDTO;
 import com.mkv.devcatalog.domain.user.UserInsertDTO;
+import com.mkv.devcatalog.domain.user.UserUpdateDTO;
 import com.mkv.devcatalog.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto, UriComponentsBuilder uriBuilder) {
         UserDTO newDto = service.insert(dto);
         URI uri = uriBuilder.path("/users/{id}").buildAndExpand(newDto.getId()).toUri();
 
@@ -44,10 +46,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO dto) {
-        dto = service.update(id, dto);
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO dto) {
+        UserDTO newDto = service.update(id, dto);
 
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(newDto);
     }
 
     @DeleteMapping("/{id}")
