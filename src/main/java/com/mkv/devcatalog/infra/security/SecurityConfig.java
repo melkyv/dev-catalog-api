@@ -3,6 +3,7 @@ package com.mkv.devcatalog.infra.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,13 +22,19 @@ public class SecurityConfig {
     @Autowired
     private SecurityFilter securityFilter;
 
+    private static final String[] PUBLIC = {"/login", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**"};
+    private static final String[] OPERATOR_OR_ADMIN = {"/products/**", "/categories/**"};
+    private static final String[] ADMIN = {"/users/**"};
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(CsrfConfigurer::disable)
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers("/login").permitAll();
-                    req.requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll();
+                    req.requestMatchers(PUBLIC).permitAll();
+                    req.requestMatchers(HttpMethod.GET, OPERATOR_OR_ADMIN).permitAll();
+                    req.requestMatchers(OPERATOR_OR_ADMIN).hasAnyRole("OPERATOR", "ADMIN");
+                    req.requestMatchers(ADMIN).hasRole("ADMIN");
                     req.anyRequest().authenticated();
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
