@@ -5,6 +5,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.mkv.devcatalog.domain.role.Role;
 import com.mkv.devcatalog.domain.user.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,10 @@ public class TokenService {
             return JWT.create()
                     .withIssuer("API Dev Catalog")
                     .withSubject(user.getUsername())
-                    .withClaim("roles", user.getRoles().stream().toList())
+                    .withClaim("roles", user.getRoles().stream().map(Role::getAuthority).toList())
                     .withClaim("userId", user.getId())
                     .withIssuedAt(Instant.now())
-                    .withExpiresAt(Instant.now().plusSeconds(2000))
+                    .withExpiresAt(Instant.now().plusSeconds(duration))
                     .sign(algorithm);
         } catch(JWTCreationException e) {
             throw new RuntimeException("Error generating token:", e);
